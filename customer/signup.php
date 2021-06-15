@@ -10,7 +10,7 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once "../config/database.php";
-include_once "../objects/user.php";
+include_once "../objects/users.php";
 include_once "../objects/customer.php";
 include_once "../objects/membership.php";
 
@@ -37,7 +37,6 @@ if (!$user->createUser()) {
 }
 
 // Set properties of member
-$member->memberID = $data['memberID'];
 $member->fee = $data['fee'];
 $member->standing = 'Valid';
 $member->type = $data['type'];
@@ -49,12 +48,17 @@ if (!$member->createMember()) {
     die();
 }
 
+$stmt = $member->fetchLastMember();
+
+if (oci_fetch($stmt)) {
+    $member->memberID = oci_result($stmt, 'MEMBERID');
+}
+
 // Set properties of customer
-$customer->accountID = $data['accountID'];
 $customer->name = $data['name'];
 $customer->balance = 0;
 $customer->address = $data['address'];
-$customer->memberID = $data['memberID'];
+$customer->memberID = $member->memberID;
 $customer->username = $data['username'];
 
 // Create customer; if failure, send message and exit

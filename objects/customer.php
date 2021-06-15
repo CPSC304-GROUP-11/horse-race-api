@@ -4,7 +4,7 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 class Customer {
     private $database;
-    private $table_name = "\"Customer\"";
+    private $table_name = "Customer";
     
     public $accountID;
     public $name;
@@ -26,8 +26,8 @@ class Customer {
 
     function createCustomer() {
         $query = "INSERT INTO " . $this->table_name . 
-            " (accountID, name, balance, address, memberID, username) VALUES ('" . 
-            $this->accountID . "', '" . $this->name . "', '" . $this->balance . "', '" . 
+            " (name, balance, address, memberID, username) VALUES ('" . 
+            $this->name . "', '" . $this->balance . "', '" . 
             $this->address . "', '" . $this->memberID . "', '" . $this->username . "')";
         $stmt = $this->database->executePlainSQL($query);
 
