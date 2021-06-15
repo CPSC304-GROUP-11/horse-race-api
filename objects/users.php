@@ -4,7 +4,7 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 class User {
     private $database;
-    private $table_name = "\"User\"";
+    private $table_name = "Users";
 
     public $username;
     public $password;
