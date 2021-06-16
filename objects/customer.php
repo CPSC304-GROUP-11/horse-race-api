@@ -2,6 +2,9 @@
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
+
+header("Access-Control-Allow-Origin: *");
+
 class Customer {
     private $database;
     private $table_name = "Customer";
@@ -12,6 +15,7 @@ class Customer {
     public $address;
     public $memberID;
     public $username;
+    public $fund;
 
     public function __construct($db) {
         $this->database = $db;
@@ -34,10 +38,14 @@ class Customer {
     function addFund() {
         $query = "UPDATE " . $this->table_name . 
         " SET balance = balance + " . $this->fund . 
-        " WHERE username = " . $this->username;
+        " WHERE username = '" . $this->username . "'";
         $stmt = $this->database->executePlainSQL($query);
 
-        return $stmt;
+        if (OCICommit($this->database->conn)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function createCustomer() {
