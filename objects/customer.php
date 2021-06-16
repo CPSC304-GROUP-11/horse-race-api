@@ -24,6 +24,22 @@ class Customer {
         return $stmt;
     }
 
+    function getCustomerInfo() {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE username = " . $this->username;
+        $stmt = $this->database->executePlainSQL($query);
+
+        return $stmt;
+    }
+
+    function addFund() {
+        $query = "UPDATE " . $this->table_name . 
+        " SET balance = balance + " . $this->fund . 
+        " WHERE username = " . $this->username;
+        $stmt = $this->database->executePlainSQL($query);
+
+        return $stmt;
+    }
+
     function createCustomer() {
         $query = "INSERT INTO " . $this->table_name . 
             " (name, balance, address, memberID, username) VALUES ('" . 
