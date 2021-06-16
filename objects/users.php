@@ -30,5 +30,16 @@ class User {
             return false;
         }
     }
+
+    function deleteUser() {
+        $query = "DELETE FROM " . $this->table_name . " WHERE username = " . $this->username;
+        $stmt = $this->database->executePlainSQL($query);
+        
+        if (OCICommit($this->database->conn)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 ?>
