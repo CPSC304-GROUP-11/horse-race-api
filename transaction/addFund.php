@@ -25,24 +25,16 @@ $data = json_decode(file_get_contents('php://input'), true);
 $customer->username = $data['username'];
 $customer->fund = $data['fund'];
 
-//Attemp updating customer balance
-$stmt = $customer->addFund();
-$res = oci_execute($stmt);
-
-if(oci_num_rows($stmt) > 0) {
-    oci_free_statement($stmt);
-
-    http_response_code(200);
-    
-    echo json_encode(
-        array("message" => "Successfully Updated.")
-    );
-} else {
-    http_response_code(404);
-
-    echo json_encode(
-        array("message" => "Error Updating Account Balance.")
-    );
+//Attempt updating customer balance
+if (!$customer->addFund()) {
+    http_response_code(500);
+    echo json_encode(array("message" => "Error updating user with given credentials."));
+    die();
 }
+
+http_response_code(200);
+    
+echo json_encode(array("message" => "Successfully Updated."));
+
 $database->disconnectFromDB();
 ?>

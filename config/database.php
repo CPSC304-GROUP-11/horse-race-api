@@ -2,9 +2,12 @@
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
+
+header("Access-Control-Allow-Origin: *");
+
 class Database {
     private $username = "ora_enxie";
-    private $password = "<PASSWORD HERE>";
+    private $password = "a47605134";
     private $hostname = "dbhost.students.cs.ubc.ca:1522/stu";
     public $conn = NULL;
 
