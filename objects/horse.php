@@ -4,7 +4,7 @@ ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 class Horse {
     private $database;
-    private $table_name = "Horse_ridden_by";
+    private $table_name_1 = "Horse_ridden_by";
     
     public $horseID;
     public $nickname;
@@ -19,7 +19,7 @@ class Horse {
     }
 
     function read() {
-        $query = "SELECT * FROM " . $this->table_name;
+        $query = "SELECT * FROM " . $this->table_name_1;
         $stmt = $this->database->executePlainSQL($query);
 
         return $stmt;
@@ -27,15 +27,15 @@ class Horse {
 
     // modify this to join membership table
     function getHorseInfo() {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE username = " . $this->username;
+        $query = "SELECT * FROM " . $this->table_name_1 . " WHERE horseID = " . $this->horseID;
         $stmt = $this->database->executePlainSQL($query);
 
         return $stmt;
     }
 
     function addHorse() {
-        $query = "INSERT INTO " . $this->table_name . 
-            " (horseID, nickname, age, breed, odds, numraces, jockeyID) VALUES ('" . 
+        $query = "INSERT INTO " . $this->table_name_1 . 
+            " (horseid, nickname, age, breed, odds, numraces, jockeyid) VALUES ('" . 
             $this->horseID . "', '" . $this->nickname . "', '" . $this->age . "', '" . 
             $this->breed . "', '" . $this->odds . "', '" . $this->numraces . "', '" . $this->jockeyID . "')";
         $stmt = $this->database->executePlainSQL($query);
@@ -48,9 +48,8 @@ class Horse {
     }
 
     function editOdds() {
-        $query = "UPDATE " . $this->table_name . 
-        " SET odds = " . $this->odds . 
-        " WHERE horseID = " . $this->horseID;
+        $query = "UPDATE " . $this->table_name_1 . " SET odds = " . $this->odds . 
+        " WHERE horseid = " . $this->horseID;
         $stmt = $this->database->executePlainSQL($query);
 
         if (OCICommit($this->database->conn)) {
@@ -61,12 +60,23 @@ class Horse {
     }
 
     function createHorse() {
-        $query = "INSERT INTO " . $this->table_name . 
+        $query = "INSERT INTO " . $this->table_name_1 . 
             " (horseID, nickname, age, breed, odds, numraces, jockeyID) VALUES ('" . 
             $this->horseID . "', '" . $this->nickname . "', '" . $this->age . "', '" . 
             $this->breed . "', '" . $this->odds . "', '" . $this->numraces . "', '" . $this->jockeyID . "')";
         $stmt = $this->database->executePlainSQL($query);
 
+        if (OCICommit($this->database->conn)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function deleteHorse() {
+        $query = "DELETE FROM " . $this->table_name_1 . " WHERE horseid = " . $this->horseID;
+        $stmt = $this->database->executePlainSQL($query);
+        
         if (OCICommit($this->database->conn)) {
             return true;
         } else {
