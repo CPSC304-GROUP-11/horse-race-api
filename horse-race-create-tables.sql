@@ -241,6 +241,9 @@ INSERT INTO Race_heldAt (race_type, race_date, stadiumAddr) VALUES ('Flat racing
 INSERT INTO Race_heldAt (race_type, race_date, stadiumAddr) VALUES ('Harness racing', DATE '2018-7-14', '1579 Barbarossa St., Surrey');
 
 INSERT INTO Rides_in_race (raceID, horseID, rank) VALUES (1, 1, 1);
+INSERT INTO RIDES_IN_RACE (RACEID, HORSEID) VALUES (2, 1);
+INSERT INTO RIDES_IN_RACE (RACEID, HORSEID) VALUES (3, 1);
+INSERT INTO RIDES_IN_RACE (RACEID, HORSEID) VALUES (4, 1);
 INSERT INTO Rides_in_race (raceID, horseID, rank) VALUES (1, 2, 2);
 INSERT INTO Rides_in_race (raceID, horseID) VALUES (2, 2);
 INSERT INTO Rides_in_race (raceID, horseID) VALUES (3, 3);
