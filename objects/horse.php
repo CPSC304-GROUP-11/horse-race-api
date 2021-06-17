@@ -5,6 +5,8 @@ error_reporting(E_ALL);
 class Horse {
     private $database;
     private $table_name_1 = "Horse_ridden_by";
+    private $table_name_2 = "BETS_IN_RACE";
+    private $table_name_3 = "RIDES_IN_RACE";
     
     public $horseID;
     public $nickname;
@@ -25,11 +27,26 @@ class Horse {
         return $stmt;
     }
 
-    // modify this to join membership table
+    // get single horse info
     function getHorseInfo() {
         $query = "SELECT * FROM " . $this->table_name_1 . " WHERE horseID = " . $this->horseID;
         $stmt = $this->database->executePlainSQL($query);
 
+        return $stmt;
+    }
+
+    // get a horse that participated in all races
+    // select h.horseid, h.nickname from HORSE_RIDDEN_BY h WHERE NOT EXISTS 
+    // ((select b.raceid from BETS_IN_RACE b) MINUS 
+    // (select r.raceid from RIDES_IN_RACE r where h.horseid=r.horseid));
+    function getSuperHorse() {
+        $query = "SELECT h.horseid, h.nickname FROM " . $this->table_name_1 . " h " . 
+        "WHERE NOT EXISTS ((" . 
+        "SELECT b.raceid FROM " . $this->table_name_2 . " b) MINUS (" . 
+        "SELECT r.raceid FROM " . $this->table_name_3 . " r " .
+        "WHERE h.horseid=r.horseid))";
+
+        $stmt = $this->database->executePlainSQL($query);
         return $stmt;
     }
 
